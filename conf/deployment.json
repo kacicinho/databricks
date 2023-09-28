@@ -1,0 +1,1820 @@
+{
+    "default": {
+      "jobs": [
+        {
+        "name": "databricks_jobs-simple_vod_reco_job",
+        "new_cluster": {
+          "spark_version": "8.3.x-cpu-ml-scala2.12",
+          "node_type_id": "r5d.2xlarge",
+          "driver_node_type_id": "c5d.2xlarge",
+          "aws_attributes": {
+            "first_on_demand": 0,
+            "availability": "SPOT_WITH_FALLBACK"
+          },
+          "spark_conf": {
+            "spark.driver.maxResultSize": "8g"
+          },
+          "num_workers": 2,
+          "custom_tags": {
+            "level": "private",
+            "component": "databricks",
+            "owner": "data",
+            "topic": "data",
+            "environment": "prod",
+            "critical": "no",
+            "project": "databricks-cluster-executer"
+          }
+        },
+        "libraries": [],
+        "email_notifications": {
+          "on_start": [],
+          "on_success": [],
+          "on_failure": []
+        },
+        "max_retries": 0,
+        "spark_python_task": {
+          "python_file": "databricks_jobs/jobs/personalised_reco_jobs/simple_vod_reco_job/entrypoint.py",
+          "parameters": [
+            "--conf-file",
+            "conf/simple_vod_reco_job/configuration.json"
+          ]
+        }
+      },
+        {
+          "name": "databricks_jobs-s3_to_rds_transfert_job",
+          "new_cluster": {
+            "spark_version": "8.3.x-cpu-ml-scala2.12",
+            "node_type_id": "r5d.2xlarge",
+            "driver_node_type_id": "c5d.2xlarge",
+            "aws_attributes": {
+              "first_on_demand": 0,
+              "availability": "SPOT_WITH_FALLBACK",
+              "ebs_volume_type": "GENERAL_PURPOSE_SSD",
+              "ebs_volume_count": 1,
+              "ebs_volume_size": 32
+            },
+            "spark_conf": {
+              "spark.databricks.cluster.profile": "singleNode",
+              "spark.master": "local[*]"
+            },
+            "num_workers": 0,
+            "custom_tags": {
+              "level": "private",
+              "component": "databricks",
+              "owner": "data",
+              "topic": "data",
+              "environment": "prod",
+              "critical": "no",
+              "project": "databricks-cluster-executer"
+            }
+          },
+          "libraries": [],
+          "email_notifications": {
+            "on_start": [],
+            "on_success": [],
+            "on_failure": []
+          },
+          "max_retries": 0,
+          "spark_python_task": {
+            "python_file": "databricks_jobs/jobs/misc_jobs/s3_to_rds_transfert_job/entrypoint.py",
+            "parameters": [
+              "--conf-file",
+              "conf/s3_to_rds_transfert_job/configuration.json"
+            ]
+          },
+          "max_concurrent_runs": 25
+        },
+        {
+          "name": "databricks_jobs-data_quality_job",
+          "new_cluster": {
+            "spark_version": "7.3.x-cpu-ml-scala2.12",
+            "node_type_id": "r5d.2xlarge",
+            "driver_node_type_id": "c5d.4xlarge",
+            "aws_attributes": {
+              "first_on_demand": 0,
+              "availability": "SPOT_WITH_FALLBACK"
+            },
+            "spark_conf": {
+              "spark.driver.maxResultSize": "8g"
+            },
+            "num_workers": 4,
+            "custom_tags": {
+              "level": "private",
+              "component": "databricks",
+              "owner": "data",
+              "topic": "data",
+              "environment": "prod",
+              "critical": "no",
+              "project": "databricks-cluster-executer"
+            }
+          },
+          "libraries": [
+            {
+              "jar": "dbfs:/FileStore/jars/7358978e_47b5_430d_8e6b_3b5fdf4c4f65-mysql_connector_java_8_0_23-2b027.jar"
+            }
+          ],
+          "email_notifications": {
+            "on_start": [],
+            "on_success": [],
+            "on_failure": []
+          },
+          "max_retries": 0,
+          "spark_python_task": {
+            "python_file": "databricks_jobs/jobs/misc_jobs/data_quality_job/entrypoint.py",
+            "parameters": [
+              "--conf-file",
+              "conf/data_quality_job/configuration.json"
+            ]
+          }
+        },
+        {
+          "name": "databricks_jobs-affinity_s3_exports_job",
+          "new_cluster": {
+            "spark_version": "7.3.x-cpu-ml-scala2.12",
+            "node_type_id": "r5d.2xlarge",
+            "driver_node_type_id": "c5d.4xlarge",
+            "aws_attributes": {
+              "first_on_demand": 0,
+              "availability": "SPOT_WITH_FALLBACK"
+            },
+            "spark_conf": {
+              "spark.driver.maxResultSize": "8g"
+            },
+            "num_workers": 1,
+            "custom_tags": {
+              "level": "private",
+              "component": "databricks",
+              "owner": "data",
+              "topic": "data",
+              "environment": "prod",
+              "critical": "no",
+              "project": "databricks-cluster-executer"
+            }
+          },
+          "libraries": [],
+          "email_notifications": {
+            "on_start": [],
+            "on_success": [],
+            "on_failure": []
+          },
+          "max_retries": 0,
+          "spark_python_task": {
+            "python_file": "databricks_jobs/jobs/fact_table_build_jobs/fact_audience_jobs/affinity_s3_exports_job/entrypoint.py",
+            "parameters": [
+              "--conf-file",
+              "conf/affinity_s3_exports_job/configuration.json"
+            ]
+          }
+        },
+        {
+          "name": "databricks_jobs-affinity_rfm_job",
+          "new_cluster": {
+            "spark_version": "7.3.x-cpu-ml-scala2.12",
+            "node_type_id": "r5d.2xlarge",
+            "driver_node_type_id": "c5d.4xlarge",
+            "aws_attributes": {
+              "first_on_demand": 0,
+              "availability": "SPOT_WITH_FALLBACK"
+            },
+            "spark_conf": {
+              "spark.driver.maxResultSize": "8g"
+            },
+            "num_workers": 4,
+            "custom_tags": {
+              "level": "private",
+              "component": "databricks",
+              "owner": "data",
+              "topic": "data",
+              "environment": "prod",
+              "critical": "no",
+              "project": "databricks-cluster-executer"
+            }
+          },
+          "libraries": [],
+          "email_notifications": {
+            "on_start": [],
+            "on_success": [],
+            "on_failure": []
+          },
+          "max_retries": 0,
+          "spark_python_task": {
+            "python_file": "databricks_jobs/jobs/fact_table_build_jobs/fact_audience_jobs/affinity_rfm_job/entrypoint.py",
+            "parameters": [
+              "--conf-file",
+              "conf/affinity_rfm_job/configuration.json"
+            ]
+          }
+        },
+        {
+          "name": "databricks_jobs-onboarding_job",
+          "new_cluster": {
+            "spark_version": "7.3.x-cpu-ml-scala2.12",
+            "node_type_id": "r5d.2xlarge",
+            "driver_node_type_id": "c5d.4xlarge",
+            "aws_attributes": {
+              "first_on_demand": 0,
+              "availability": "SPOT_WITH_FALLBACK"
+            },
+            "spark_conf": {
+              "spark.driver.maxResultSize": "8g"
+            },
+            "num_workers": 4,
+            "custom_tags": {
+              "level": "private",
+              "component": "databricks",
+              "owner": "data",
+              "topic": "data",
+              "environment": "prod",
+              "critical": "no",
+              "project": "databricks-cluster-executer"
+            }
+        },
+        "libraries": [],
+        "email_notifications": {
+          "on_start": [],
+          "on_success": [],
+          "on_failure": []
+        },
+        "max_retries": 0,
+        "spark_python_task": {
+          "python_file": "databricks_jobs/jobs/third_party_export_jobs/onboarding_job/entrypoint.py",
+          "parameters": [
+            "--conf-file",
+            "conf/onboarding_job/configuration.json"
+          ]
+        }
+      },
+      {
+        "name": "databricks_jobs-popular_reco_job",
+        "new_cluster": {
+          "spark_version": "7.3.x-cpu-ml-scala2.12",
+          "node_type_id": "r5d.2xlarge",
+          "driver_node_type_id": "c5d.4xlarge",
+          "aws_attributes": {
+            "first_on_demand": 0,
+            "availability": "SPOT_WITH_FALLBACK",
+            "zone_id": "eu-west-1a"
+          },
+          "spark_conf": {
+            "spark.driver.maxResultSize": "8g"
+          },
+          "num_workers": 4,
+          "custom_tags": {
+            "level": "private",
+            "component": "databricks",
+            "owner": "data",
+            "topic": "data",
+            "environment": "prod",
+            "critical": "no",
+            "project": "databricks-cluster-executer"
+          }
+        },
+        "libraries": [],
+        "email_notifications": {
+          "on_start": [],
+          "on_success": [],
+          "on_failure": []
+        },
+        "max_retries": 0,
+        "spark_python_task": {
+          "python_file": "databricks_jobs/jobs/personalised_reco_jobs/popular_reco_job/entrypoint.py",
+          "parameters": [
+            "--conf-file",
+            "conf/popular_reco_job/configuration.json"
+          ]
+        }
+      },
+      {
+        "name": "databricks_jobs-popular_reco_job_alternate",
+        "new_cluster": {
+          "spark_version": "7.3.x-cpu-ml-scala2.12",
+          "node_type_id": "r5d.2xlarge",
+          "driver_node_type_id": "c5d.4xlarge",
+          "aws_attributes": {
+            "first_on_demand": 0,
+            "availability": "SPOT_WITH_FALLBACK",
+            "zone_id": "eu-west-1a"
+          },
+          "spark_conf": {
+            "spark.driver.maxResultSize": "8g"
+          },
+          "num_workers": 4,
+          "custom_tags": {
+            "level": "private",
+            "component": "databricks",
+            "owner": "data",
+            "topic": "data",
+            "environment": "prod",
+            "critical": "no",
+            "project": "databricks-cluster-executer"
+          }
+        },
+        "libraries": [],
+        "email_notifications": {
+          "on_start": [],
+          "on_success": [],
+          "on_failure": []
+        },
+        "max_retries": 0,
+        "spark_python_task": {
+          "python_file": "databricks_jobs/jobs/personalised_reco_jobs/popular_reco_job_alternate/entrypoint.py",
+          "parameters": [
+            "--conf-file",
+            "conf/popular_reco_job_alternate/configuration.json"
+          ]
+        }
+      },
+      {
+        "name": "databricks_jobs-panel_job",
+        "new_cluster": {
+          "spark_version": "7.3.x-cpu-ml-scala2.12",
+          "node_type_id": "r5d.2xlarge",
+          "driver_node_type_id": "c5d.4xlarge",
+          "aws_attributes": {
+            "first_on_demand": 0,
+            "availability": "SPOT_WITH_FALLBACK"
+          },
+          "spark_conf": {
+            "spark.driver.maxResultSize": "8g"
+          },
+          "num_workers": 4,
+          "custom_tags": {
+            "level": "private",
+            "component": "databricks",
+            "owner": "data",
+            "topic": "data",
+            "environment": "prod",
+            "critical": "no",
+            "project": "databricks-cluster-executer"
+          }
+        },
+        "libraries": [],
+        "email_notifications": {
+          "on_start": [],
+          "on_success": [],
+          "on_failure": []
+        },
+        "max_retries": 0,
+        "spark_python_task": {
+          "python_file": "databricks_jobs/jobs/third_party_export_jobs/panel_job/entrypoint.py",
+          "parameters": [
+            "--conf-file",
+            "conf/panel_job/configuration.json"
+          ]
+        }
+      },
+      {
+        "name": "databricks_jobs-affinity_segment_job",
+        "new_cluster": {
+          "spark_version": "7.3.x-cpu-ml-scala2.12",
+          "node_type_id": "r5d.2xlarge",
+          "driver_node_type_id": "c5d.4xlarge",
+          "aws_attributes": {
+            "first_on_demand": 0,
+            "availability": "SPOT_WITH_FALLBACK"
+          },
+          "spark_conf": {
+            "spark.driver.maxResultSize": "8g"
+          },
+          "num_workers": 4,
+          "custom_tags": {
+            "level": "private",
+            "component": "databricks",
+            "owner": "data",
+            "topic": "data",
+            "environment": "prod",
+            "critical": "no",
+            "project": "databricks-cluster-executer"
+          },
+          "init_scripts": [
+            {
+              "dbfs": {
+                "destination": "dbfs:/init_scripts/init_spacy"
+              }
+            }
+          ]
+        },
+        "libraries": [
+          {
+            "pypi": {
+              "package": "simplejson"
+            }
+          }
+        ],
+        "email_notifications": {
+          "on_start": [],
+          "on_success": [],
+          "on_failure": []
+        },
+        "max_retries": 0,
+        "spark_python_task": {
+          "python_file": "databricks_jobs/jobs/fact_table_build_jobs/fact_audience_jobs/affinity_segment_job/entrypoint.py",
+          "parameters": [
+            "--conf-file",
+            "conf/affinity_segment_job/configuration.json"
+          ]
+        }
+      },
+      {
+        "name": "databricks_jobs-next_episode_watch_job",
+        "new_cluster": {
+          "spark_version": "8.0.x-cpu-ml-scala2.12",
+          "node_type_id": "r5d.2xlarge",
+          "driver_node_type_id": "c5d.4xlarge",
+          "aws_attributes": {
+            "first_on_demand": 0,
+            "availability": "SPOT_WITH_FALLBACK"
+          },
+          "spark_conf": {
+            "spark.driver.maxResultSize": "8g"
+          },
+          "num_workers": 4,
+          "custom_tags": {
+            "level": "private",
+            "component": "databricks",
+            "owner": "data",
+            "topic": "data",
+            "environment": "prod",
+            "critical": "no",
+            "project": "databricks-cluster-executer"
+          }
+        },
+        "libraries": [],
+        "email_notifications": {
+          "on_start": [],
+          "on_success": [],
+          "on_failure": []
+        },
+        "max_retries": 0,
+        "spark_python_task": {
+          "python_file": "databricks_jobs/jobs/personalised_reco_jobs/next_episode_watch_job/entrypoint.py",
+          "parameters": [
+            "--conf-file",
+            "conf/next_episode_watch_job/configuration.json"
+          ]
+        }
+      },
+      {
+        "name": "databricks_jobs-psub_job",
+        "new_cluster": {
+          "spark_version": "7.3.x-cpu-ml-scala2.12",
+          "node_type_id": "r5d.2xlarge",
+          "driver_node_type_id": "c5d.4xlarge",
+          "aws_attributes": {
+            "first_on_demand": 0,
+            "availability": "SPOT_WITH_FALLBACK"
+          },
+          "spark_conf": {
+            "spark.driver.maxResultSize": "8g"
+          },
+          "num_workers": 4,
+          "custom_tags": {
+            "level": "private",
+            "component": "databricks",
+            "owner": "data",
+            "topic": "data",
+            "environment": "prod",
+            "critical": "no",
+            "project": "databricks-cluster-executer"
+          }
+        },
+        "libraries": [],
+        "email_notifications": {
+          "on_start": [],
+          "on_success": [],
+          "on_failure": []
+        },
+        "max_retries": 0,
+        "spark_python_task": {
+          "python_file": "databricks_jobs/jobs/ml_models_jobs/psub_job/entrypoint.py",
+          "parameters": [
+            "--conf-file",
+            "conf/psub_job/configuration.json"
+          ]
+        }
+      },
+      {
+        "name": "databricks_jobs-training_psub_job",
+        "new_cluster": {
+          "spark_version": "7.3.x-cpu-ml-scala2.12",
+          "node_type_id": "r5d.2xlarge",
+          "driver_node_type_id": "c5d.4xlarge",
+          "aws_attributes": {
+            "first_on_demand": 0,
+            "availability": "SPOT_WITH_FALLBACK"
+          },
+          "spark_conf": {
+            "spark.driver.maxResultSize": "8g"
+          },
+          "num_workers": 4,
+          "custom_tags": {
+            "level": "private",
+            "component": "databricks",
+            "owner": "data",
+            "topic": "data",
+            "environment": "prod",
+            "critical": "no",
+            "project": "databricks-cluster-executer"
+          }
+        },
+        "libraries": [],
+        "email_notifications": {
+          "on_start": [],
+          "on_success": [],
+          "on_failure": []
+        },
+        "max_retries": 0,
+        "spark_python_task": {
+          "python_file": "databricks_jobs/jobs/ml_models_jobs/training_psub_job/entrypoint.py",
+          "parameters": [
+            "--conf-file",
+            "conf/training_psub_job/configuration.json"
+          ]
+        }
+      },
+      {
+        "name": "databricks_jobs-popular_personality_job",
+        "new_cluster": {
+          "spark_version": "7.3.x-cpu-ml-scala2.12",
+          "node_type_id": "r5d.2xlarge",
+          "driver_node_type_id": "c5d.4xlarge",
+          "aws_attributes": {
+            "first_on_demand": 0,
+            "availability": "SPOT_WITH_FALLBACK"
+          },
+          "spark_conf": {
+            "spark.driver.maxResultSize": "8g"
+          },
+          "num_workers": 4,
+          "custom_tags": {
+            "level": "private",
+            "component": "databricks",
+            "owner": "data",
+            "topic": "data",
+            "environment": "prod",
+            "critical": "no",
+            "project": "databricks-cluster-executer"
+          }
+        },
+        "libraries": [],
+        "email_notifications": {
+          "on_start": [],
+          "on_success": [],
+          "on_failure": []
+        },
+        "max_retries": 0,
+        "spark_python_task": {
+          "python_file": "databricks_jobs/jobs/personalised_reco_jobs/popular_personality_job/entrypoint.py",
+          "parameters": [
+            "--conf-file",
+            "conf/popular_personality_job/configuration.json"
+          ]
+        }
+      },
+      {
+        "name": "databricks_jobs-fact_search_job",
+        "new_cluster": {
+          "spark_version": "7.3.x-cpu-ml-scala2.12",
+          "node_type_id": "r5d.2xlarge",
+          "driver_node_type_id": "c5d.4xlarge",
+          "aws_attributes": {
+            "first_on_demand": 0,
+            "availability": "SPOT_WITH_FALLBACK"
+          },
+          "spark_conf": {
+            "spark.driver.maxResultSize": "8g"
+          },
+          "num_workers": 4,
+          "custom_tags": {
+            "level": "private",
+            "component": "databricks",
+            "owner": "data",
+            "topic": "data",
+            "environment": "prod",
+            "critical": "no",
+            "project": "databricks-cluster-executer"
+          }
+        },
+        "libraries": [],
+        "email_notifications": {
+          "on_start": [],
+          "on_success": [],
+          "on_failure": []
+        },
+        "max_retries": 0,
+        "spark_python_task": {
+          "python_file": "databricks_jobs/jobs/fact_table_build_jobs/fact_search_job/entrypoint.py",
+          "parameters": [
+            "--conf-file",
+            "conf/fact_search_job/configuration.json"
+          ]
+        }
+      },
+      {
+        "name": "databricks_jobs-pclick_learning_log_job",
+        "new_cluster": {
+          "spark_version": "7.3.x-cpu-ml-scala2.12",
+          "node_type_id": "r5d.2xlarge",
+          "driver_node_type_id": "c5d.4xlarge",
+          "aws_attributes": {
+            "first_on_demand": 0,
+            "availability": "SPOT_WITH_FALLBACK"
+          },
+          "spark_conf": {
+            "spark.driver.maxResultSize": "8g"
+          },
+          "num_workers": 4,
+          "custom_tags": {
+            "level": "private",
+            "component": "databricks",
+            "owner": "data",
+            "topic": "data",
+            "environment": "prod",
+            "critical": "no",
+            "project": "databricks-cluster-executer"
+          }
+        },
+        "libraries": [],
+        "email_notifications": {
+          "on_start": [],
+          "on_success": [],
+          "on_failure": []
+        },
+        "max_retries": 0,
+        "spark_python_task": {
+          "python_file": "databricks_jobs/jobs/ml_models_jobs/pclick/pclick_learning_log_job/entrypoint.py",
+          "parameters": [
+            "--conf-file",
+            "conf/pclick_learning_log_job/configuration.json"
+          ]
+        }
+      },
+      {
+        "name": "databricks_jobs-user_and_prog_feature_log_job",
+        "new_cluster": {
+          "spark_version": "8.3.x-cpu-ml-scala2.12",
+          "node_type_id": "r5d.2xlarge",
+          "driver_node_type_id": "c5d.4xlarge",
+          "aws_attributes": {
+            "first_on_demand": 0,
+            "availability": "SPOT_WITH_FALLBACK"
+          },
+          "spark_conf": {
+            "spark.driver.maxResultSize": "8g"
+          },
+          "num_workers": 4,
+          "custom_tags": {
+            "level": "private",
+            "component": "databricks",
+            "owner": "data",
+            "topic": "data",
+            "environment": "prod",
+            "critical": "no",
+            "project": "databricks-cluster-executer"
+          }
+        },
+        "libraries": [],
+        "email_notifications": {
+          "on_start": [],
+          "on_success": [],
+          "on_failure": []
+        },
+        "max_retries": 0,
+        "spark_python_task": {
+          "python_file": "databricks_jobs/jobs/ml_models_jobs/user_and_prog_feature_log_job/entrypoint.py",
+          "parameters": [
+            "--conf-file",
+            "conf/user_and_prog_feature_log_job/configuration.json"
+          ]
+        }
+      },
+      {
+        "name": "databricks_jobs-cosine_similarity_job",
+        "new_cluster": {
+          "spark_version": "8.3.x-cpu-ml-scala2.12",
+          "node_type_id": "r5d.2xlarge",
+          "driver_node_type_id": "c5d.4xlarge",
+          "aws_attributes": {
+            "first_on_demand": 0,
+            "availability": "SPOT_WITH_FALLBACK"
+          },
+          "spark_conf": {
+            "spark.driver.maxResultSize": "8g"
+          },
+          "num_workers": 4,
+          "custom_tags": {
+            "level": "private",
+            "component": "databricks",
+            "owner": "data",
+            "topic": "data",
+            "environment": "prod",
+            "critical": "no",
+            "project": "databricks-cluster-executer"
+          }
+        },
+        "libraries": [],
+        "email_notifications": {
+          "on_start": [],
+          "on_success": [],
+          "on_failure": []
+        },
+        "max_retries": 0,
+        "spark_python_task": {
+          "python_file": "databricks_jobs/jobs/metadata_enrichment_jobs/cosine_similarity_job/entrypoint.py",
+          "parameters": [
+            "--conf-file",
+            "conf/cosine_similarity_job/configuration.json"
+          ]
+        }
+      },
+      {
+        "name": "databricks_jobs-tag_of_the_week_job",
+        "new_cluster": {
+          "spark_version": "8.3.x-cpu-ml-scala2.12",
+          "node_type_id": "r5d.2xlarge",
+          "driver_node_type_id": "c5d.4xlarge",
+          "aws_attributes": {
+            "first_on_demand": 0,
+            "availability": "ON_DEMAND"
+          },
+          "spark_conf": {
+            "spark.driver.maxResultSize": "8g"
+          },
+          "num_workers": 4,
+          "custom_tags": {
+            "level": "private",
+            "component": "databricks",
+            "owner": "data",
+            "topic": "data",
+            "environment": "prod",
+            "critical": "no",
+            "project": "databricks-cluster-executer"
+          }
+        },
+        "libraries": [],
+        "email_notifications": {
+          "on_start": [],
+          "on_success": [],
+          "on_failure": []
+        },
+        "max_retries": 0,
+        "spark_python_task": {
+          "python_file": "databricks_jobs/jobs/algotorial/tag_of_the_week_job/entrypoint.py",
+          "parameters": [
+            "--conf-file",
+            "conf/tag_of_the_week_job/configuration.json"
+          ]
+        }
+      },
+      {
+        "name": "databricks_jobs-tag_based_prog_sim_job",
+        "new_cluster": {
+          "spark_version": "7.3.x-cpu-ml-scala2.12",
+          "node_type_id": "r5d.2xlarge",
+          "driver_node_type_id": "c5d.2xlarge",
+          "aws_attributes": {
+            "first_on_demand": 0,
+            "availability": "SPOT_WITH_FALLBACK"
+          },
+          "spark_conf": {
+            "spark.driver.maxResultSize": "8g"
+          },
+          "num_workers": 2,
+          "custom_tags": {
+            "level": "private",
+            "component": "databricks",
+            "owner": "data",
+            "topic": "data",
+            "environment": "prod",
+            "critical": "no",
+            "project": "databricks-cluster-executer"
+          },
+          "init_scripts": [
+            {
+              "dbfs": {
+                "destination": "dbfs:/init_scripts/init_spacy"
+              }
+            }
+          ]
+        },
+        "libraries": [
+          {
+            "pypi": {
+              "package": "simplejson"
+            }
+          }
+        ],
+        "email_notifications": {
+          "on_start": [],
+          "on_success": [],
+          "on_failure": []
+        },
+        "max_retries": 0,
+        "spark_python_task": {
+          "python_file": "databricks_jobs/jobs/program_similarity_jobs/tag_based_prog_sim_job/entrypoint.py",
+          "parameters": [
+            "--conf-file",
+            "conf/tag_based_prog_sim_job/configuration.json"
+          ]
+        }
+      },
+      {
+        "name": "databricks_jobs-tag_based_channel_prog_sim_job",
+        "new_cluster": {
+          "spark_version": "7.3.x-cpu-ml-scala2.12",
+          "node_type_id": "r5d.2xlarge",
+          "driver_node_type_id": "c5d.2xlarge",
+          "aws_attributes": {
+            "first_on_demand": 0,
+            "availability": "SPOT_WITH_FALLBACK"
+          },
+          "spark_conf": {
+            "spark.driver.maxResultSize": "8g"
+          },
+          "num_workers": 2,
+          "custom_tags": {
+            "level": "private",
+            "component": "databricks",
+            "owner": "data",
+            "topic": "data",
+            "environment": "prod",
+            "critical": "no",
+            "project": "databricks-cluster-executer"
+          },
+          "init_scripts": [
+            {
+              "dbfs": {
+                "destination": "dbfs:/init_scripts/init_spacy"
+              }
+            }
+          ]
+        },
+        "libraries": [
+          {
+            "pypi": {
+              "package": "simplejson"
+            }
+          }
+        ],
+        "email_notifications": {
+          "on_start": [],
+          "on_success": [],
+          "on_failure": []
+        },
+        "max_retries": 0,
+        "spark_python_task": {
+          "python_file": "databricks_jobs/jobs/program_similarity_jobs/tag_based_channel_prog_sim_job/entrypoint.py",
+          "parameters": [
+            "--conf-file",
+            "conf/tag_based_channel_prog_sim_job/configuration.json"
+          ]
+        }
+      },
+      {
+        "name": "databricks_jobs-tag_based_prog_sim_job_alternate",
+        "new_cluster": {
+          "spark_version": "7.3.x-cpu-ml-scala2.12",
+          "node_type_id": "r5d.2xlarge",
+          "driver_node_type_id": "c5d.2xlarge",
+          "aws_attributes": {
+            "first_on_demand": 0,
+            "availability": "SPOT_WITH_FALLBACK"
+          },
+          "spark_conf": {
+            "spark.driver.maxResultSize": "8g"
+          },
+          "num_workers": 2,
+          "custom_tags": {
+            "level": "private",
+            "component": "databricks",
+            "owner": "data",
+            "topic": "data",
+            "environment": "prod",
+            "critical": "no",
+            "project": "databricks-cluster-executer"
+          },
+          "init_scripts": [
+            {
+              "dbfs": {
+                "destination": "dbfs:/init_scripts/init_spacy"
+              }
+            }
+          ]
+        },
+        "libraries": [
+          {
+            "pypi": {
+              "package": "simplejson"
+            }
+          }
+        ],
+        "email_notifications": {
+          "on_start": [],
+          "on_success": [],
+          "on_failure": []
+        },
+        "max_retries": 0,
+        "spark_python_task": {
+          "python_file": "databricks_jobs/jobs/program_similarity_jobs/tag_based_prog_sim_job_alternate/entrypoint.py",
+          "parameters": [
+            "--conf-file",
+            "conf/tag_based_prog_sim_job_alternate/configuration.json"
+          ]
+        }
+      },
+      {
+        "name": "databricks_jobs-synopsys_nlp_based_similarity_job",
+        "new_cluster": {
+          "spark_version": "7.3.x-cpu-ml-scala2.12",
+          "node_type_id": "r5d.2xlarge",
+          "driver_node_type_id": "c5d.2xlarge",
+          "aws_attributes": {
+            "first_on_demand": 0,
+            "availability": "SPOT_WITH_FALLBACK"
+          },
+         "spark_conf": {
+            "spark.driver.maxResultSize": "8g"
+          },
+          "num_workers": 2,
+          "custom_tags": {
+            "level": "private",
+            "component": "databricks",
+            "owner": "data",
+            "topic": "data",
+            "environment": "prod",
+            "critical": "no",
+            "project": "databricks-cluster-executer"
+          },
+          "init_scripts": []
+        },
+        "libraries": [],
+        "email_notifications": {
+          "on_start": [],
+          "on_success": [],
+          "on_failure": []
+        },
+        "max_retries": 0,
+        "spark_python_task": {
+          "python_file": "databricks_jobs/jobs/program_similarity_jobs/synopsys_nlp_based_similarity_job/entrypoint.py",
+          "parameters": [
+            "--conf-file",
+            "conf/synopsys_nlp_based_similarity_job/configuration.json"
+          ]
+        }
+      },
+      {
+        "name": "databricks_jobs-keyword_keyword_similarity_job",
+        "new_cluster": {
+            "spark_version": "10.3.x-cpu-ml-scala2.12",
+            "node_type_id": "r5d.2xlarge",
+            "driver_node_type_id": "c5d.4xlarge",
+            "aws_attributes": {
+              "first_on_demand": 0,
+              "availability": "SPOT_WITH_FALLBACK"
+            },
+            "spark_conf": {
+              "spark.databricks.cluster.profile": "singleNode",
+              "spark.master": "local[*]"
+            },
+            "num_workers": 0,
+            "custom_tags": {
+                  "level": "private",
+                  "component": "databricks",
+                  "owner": "data",
+                  "topic": "data",
+                  "environment": "prod",
+                  "critical": "no",
+                  "project": "databricks-cluster-executer"
+            }
+          },
+        "libraries": [],
+        "email_notifications": {
+          "on_start": [],
+          "on_success": [],
+          "on_failure": []
+        },
+        "max_retries": 0,
+        "spark_python_task": {
+          "python_file": "databricks_jobs/jobs/metadata_enrichment_jobs/keyword_keyword_similarity_job/entrypoint.py",
+          "parameters": [
+            "--conf-file",
+            "conf/keyword_keyword_similarity_job/configuration.json"
+          ]
+        }
+      },
+      {
+        "name": "databricks_jobs-translation_job",
+        "new_cluster": {
+            "spark_version": "10.3.x-cpu-ml-scala2.12",
+            "node_type_id": "r5d.2xlarge",
+            "driver_node_type_id": "c5d.4xlarge",
+            "aws_attributes": {
+              "first_on_demand": 0,
+              "availability": "SPOT_WITH_FALLBACK"
+            },
+            "spark_conf": {
+              "spark.databricks.cluster.profile": "singleNode",
+              "spark.master": "local[*]"
+            },
+            "num_workers": 0,
+            "custom_tags": {
+                  "level": "private",
+                  "component": "databricks",
+                  "owner": "data",
+                  "topic": "data",
+                  "environment": "prod",
+                  "critical": "no",
+                  "project": "databricks-cluster-executer"
+            }
+          },
+        "libraries": [],
+        "email_notifications": {
+          "on_start": [],
+          "on_success": [],
+          "on_failure": []
+        },
+        "max_retries": 0,
+        "spark_python_task": {
+          "python_file": "databricks_jobs/jobs/metadata_enrichment_jobs/translation_job/entrypoint.py",
+
+          "parameters": [
+            "--conf-file",
+            "conf/translation_job/configuration.json"
+          ]
+        }
+      },
+      {
+        "name": "databricks_jobs-store_imdb_keywords_job",
+        "new_cluster": {
+            "spark_version": "10.3.x-cpu-ml-scala2.12",
+            "node_type_id": "r5d.2xlarge",
+            "driver_node_type_id": "c5d.4xlarge",
+            "aws_attributes": {
+              "first_on_demand": 0,
+              "availability": "SPOT_WITH_FALLBACK"
+            },
+            "spark_conf": {
+              "spark.databricks.cluster.profile": "singleNode",
+              "spark.master": "local[*]"
+            },
+            "num_workers": 0,
+            "custom_tags": {
+                  "level": "private",
+                  "component": "databricks",
+                  "owner": "data",
+                  "topic": "data",
+                  "environment": "prod",
+                  "critical": "no",
+                  "project": "databricks-cluster-executer"
+            }
+          },
+        "libraries": [],
+        "email_notifications": {
+          "on_start": [],
+          "on_success": [],
+          "on_failure": []
+        },
+        "max_retries": 0,
+        "spark_python_task": {
+          "python_file": "databricks_jobs/jobs/metadata_enrichment_jobs/store_imdb_keywords_job/entrypoint.py",
+
+          "parameters": [
+            "--conf-file",
+            "conf/store_imdb_keywords_job/configuration.json"
+          ]
+        }
+      },
+      {
+        "name": "databricks_jobs-programs_embeddings_job",
+        "new_cluster": {
+            "spark_version": "10.3.x-cpu-ml-scala2.12",
+            "node_type_id": "r5d.2xlarge",
+            "driver_node_type_id": "c5d.4xlarge",
+            "aws_attributes": {
+              "availability": "ON_DEMAND",
+              "zone_id": "eu-west-1a"
+            },
+            "spark_conf": {
+              "spark.databricks.cluster.profile": "singleNode",
+              "spark.master": "local[*]"
+            },
+            "num_workers": 0,
+            "custom_tags": {
+                  "level": "private",
+                  "component": "databricks",
+                  "owner": "data",
+                  "topic": "data",
+                  "environment": "prod",
+                  "critical": "no",
+                  "project": "databricks-cluster-executer"
+            }
+          },
+        "libraries": [],
+        "email_notifications": {
+          "on_start": [],
+          "on_success": [],
+          "on_failure": []
+        },
+        "max_retries": 0,
+        "spark_python_task": {
+          "python_file": "databricks_jobs/jobs/program_similarity_jobs/programs_embeddings_job/entrypoint.py",
+
+          "parameters": [
+            "--conf-file",
+            "conf/programs_embeddings_job/configuration.json"
+          ]
+        }
+      },
+      {
+        "name": "databricks_jobs-keywords_embeddings_job",
+        "new_cluster": {
+            "spark_version": "10.3.x-cpu-ml-scala2.12",
+            "node_type_id": "r5d.2xlarge",
+            "driver_node_type_id": "c5d.4xlarge",
+            "aws_attributes": {
+              "first_on_demand": 0,
+              "availability": "SPOT_WITH_FALLBACK"
+            },
+            "spark_conf": {
+              "spark.databricks.cluster.profile": "singleNode",
+              "spark.master": "local[*]"
+            },
+            "num_workers": 0,
+            "custom_tags": {
+                  "level": "private",
+                  "component": "databricks",
+                  "owner": "data",
+                  "topic": "data",
+                  "environment": "prod",
+                  "critical": "no",
+                  "project": "databricks-cluster-executer"
+            }
+          },
+        "libraries": [],
+        "email_notifications": {
+          "on_start": [],
+          "on_success": [],
+          "on_failure": []
+        },
+        "max_retries": 0,
+        "spark_python_task": {
+          "python_file": "databricks_jobs/jobs/metadata_enrichment_jobs/keywords_embeddings_job/entrypoint.py",
+
+          "parameters": [
+            "--conf-file",
+            "conf/keywords_embeddings_job/configuration.json"
+          ]
+        }
+      },
+      {
+        "name": "databricks_jobs-device_exporter_job",
+        "new_cluster": {
+          "spark_version": "8.3.x-cpu-ml-scala2.12",
+          "node_type_id": "r5d.2xlarge",
+          "driver_node_type_id": "c5d.2xlarge",
+          "aws_attributes": {
+            "first_on_demand": 0,
+            "availability": "SPOT_WITH_FALLBACK"
+          },
+          "spark_conf": {
+              "spark.databricks.cluster.profile": "singleNode",
+              "spark.master": "local[*]"
+          },
+          "num_workers": 0,
+          "custom_tags": {
+            "level": "private",
+            "component": "databricks",
+            "owner": "data",
+            "topic": "data",
+            "environment": "prod",
+            "critical": "no",
+            "project": "databricks-cluster-executer"
+          }
+        },
+        "libraries": [],
+        "email_notifications": {
+          "on_start": [],
+          "on_success": [],
+          "on_failure": []
+        },
+        "max_retries": 0,
+        "spark_python_task": {
+          "python_file": "databricks_jobs/jobs/third_party_export_jobs/device_exporter/entrypoint.py",
+          "parameters": [
+            "--conf-file",
+            "conf/device_exporter/configuration.json"
+          ]
+        }
+      },
+      {
+        "name": "databricks_jobs-merge_reco_job",
+        "new_cluster": {
+          "spark_version": "8.3.x-cpu-ml-scala2.12",
+          "node_type_id": "r5d.2xlarge",
+          "driver_node_type_id": "c5d.2xlarge",
+          "aws_attributes": {
+            "first_on_demand": 0,
+            "availability": "SPOT_WITH_FALLBACK"
+          },
+          "spark_conf": {
+              "spark.databricks.cluster.profile": "singleNode",
+              "spark.master": "local[*]"
+          },
+          "num_workers": 0,
+          "custom_tags": {
+            "level": "private",
+            "component": "databricks",
+            "owner": "data",
+            "topic": "data",
+            "environment": "prod",
+            "critical": "no",
+            "project": "databricks-cluster-executer"
+          }
+        },
+        "libraries": [],
+        "email_notifications": {
+          "on_start": [],
+          "on_success": [],
+          "on_failure": []
+        },
+        "max_retries": 0,
+        "spark_python_task": {
+          "python_file": "databricks_jobs/jobs/personalised_reco_jobs/merge_reco_job/entrypoint.py",
+          "parameters": [
+            "--conf-file",
+            "conf/merge_reco_job/configuration.json"
+          ]
+        }
+      },
+      {
+      "name": "databricks_jobs-rail_clic_attribution_job",
+      "new_cluster": {
+        "spark_version": "7.3.x-cpu-ml-scala2.12",
+        "node_type_id": "r5d.2xlarge",
+        "driver_node_type_id": "c5d.4xlarge",
+        "aws_attributes": {
+          "first_on_demand": 0,
+          "availability": "SPOT_WITH_FALLBACK",
+          "zone_id": "eu-west-1a"
+        },
+        "spark_conf": {
+          "spark.driver.maxResultSize": "8g"
+        },
+        "num_workers": 4,
+        "custom_tags": {
+          "level": "private",
+          "component": "databricks",
+          "owner": "data",
+          "topic": "data",
+          "environment": "prod",
+          "critical": "no",
+          "project": "databricks-cluster-executer"
+        }
+      },
+      "libraries": [],
+      "email_notifications": {
+        "on_start": [],
+        "on_success": [],
+        "on_failure": []
+      },
+      "max_retries": 0,
+      "spark_python_task": {
+        "python_file": "databricks_jobs/jobs/fact_table_build_jobs/rail_clic_attribution_job/entrypoint.py",
+        "parameters": [
+          "--conf-file",
+          "conf/rail_clic_attribution_job/configuration.json"
+        ]
+      }
+    },
+    {
+      "name": "databricks_jobs-program_clic_attribution_job",
+      "new_cluster": {
+        "spark_version": "7.3.x-cpu-ml-scala2.12",
+        "node_type_id": "r5d.2xlarge",
+        "driver_node_type_id": "c5d.4xlarge",
+        "aws_attributes": {
+          "first_on_demand": 0,
+          "availability": "SPOT_WITH_FALLBACK",
+          "zone_id": "eu-west-1a"
+        },
+        "spark_conf": {
+          "spark.driver.maxResultSize": "8g"
+        },
+        "num_workers": 4,
+        "custom_tags": {
+          "level": "private",
+          "component": "databricks",
+          "owner": "data",
+          "topic": "data",
+          "environment": "prod",
+          "critical": "no",
+          "project": "databricks-cluster-executer"
+        }
+      },
+      "libraries": [],
+      "email_notifications": {
+        "on_start": [],
+        "on_success": [],
+        "on_failure": []
+      },
+      "max_retries": 0,
+      "spark_python_task": {
+        "python_file": "databricks_jobs/jobs/fact_table_build_jobs/program_clic_attribution_job/entrypoint.py",
+        "parameters": [
+          "--conf-file",
+          "conf/program_clic_attribution_job/configuration.json"
+        ]
+      }
+    },
+    {
+      "name": "databricks_jobs-reco_replay_job",
+      "new_cluster": {
+        "spark_version": "7.3.x-cpu-ml-scala2.12",
+        "node_type_id": "r5d.2xlarge",
+        "driver_node_type_id": "c5d.4xlarge",
+        "aws_attributes": {
+          "first_on_demand": 0,
+          "availability": "SPOT_WITH_FALLBACK",
+          "zone_id": "eu-west-1a"
+        },
+        "spark_conf": {
+          "spark.driver.maxResultSize": "8g"
+        },
+        "num_workers": 4,
+        "custom_tags": {
+          "level": "private",
+          "component": "databricks",
+          "owner": "data",
+          "topic": "data",
+          "environment": "prod",
+          "critical": "no",
+          "project": "databricks-cluster-executer"
+        }
+      },
+      "libraries": [],
+      "email_notifications": {
+        "on_start": [],
+        "on_success": [],
+        "on_failure": []
+      },
+      "max_retries": 0,
+      "spark_python_task": {
+        "python_file": "databricks_jobs/jobs/personalised_reco_jobs/reco_replay_job/entrypoint.py",
+        "parameters": [
+          "--conf-file",
+          "conf/reco_replay_job/configuration.json"
+        ]
+      }
+    },
+        {
+      "name": "databricks_jobs-reco_replay_job_alternate",
+      "new_cluster": {
+        "spark_version": "10.3.x-cpu-ml-scala2.12",
+        "node_type_id": "r5d.large",
+        "driver_node_type_id": "c5d.2xlarge",
+        "aws_attributes": {
+          "first_on_demand": 0,
+          "availability": "SPOT_WITH_FALLBACK",
+          "zone_id": "eu-west-1a"
+        },
+        "spark_conf": {
+          "spark.driver.maxResultSize": "8g"
+        },
+        "num_workers": 3,
+        "custom_tags": {
+          "level": "private",
+          "component": "databricks",
+          "owner": "data",
+          "topic": "data",
+          "environment": "prod",
+          "critical": "no",
+          "project": "databricks-cluster-executer"
+        }
+      },
+      "libraries": [],
+      "email_notifications": {
+        "on_start": [],
+        "on_success": [],
+        "on_failure": []
+      },
+      "max_retries": 0,
+      "spark_python_task": {
+        "python_file": "databricks_jobs/jobs/personalised_reco_jobs/reco_replay_job_alternate/entrypoint.py",
+        "parameters": [
+          "--conf-file",
+          "conf/reco_replay_job/configuration.json"
+        ]
+      }
+    },
+    {
+      "name": "databricks_jobs-pclick_training_job",
+      "new_cluster": {
+        "spark_version": "10.3.x-cpu-ml-scala2.12",
+        "node_type_id": "r5d.2xlarge",
+        "driver_node_type_id": "c5d.4xlarge",
+        "autoscale": {
+            "min_workers": 1,
+            "max_workers": 40
+        },
+        "aws_attributes": {
+          "availability": "ON_DEMAND",
+          "zone_id": "eu-west-1a"
+        },
+        "spark_conf": {
+          "spark.driver.maxResultSize": "8g",
+          "spark.sql.shuffle.partitions": 2000,
+          "spark.sql.adaptive.enabled": "false"
+        },
+        "num_workers": 2,
+        "custom_tags": {
+          "level": "private",
+          "component": "databricks",
+          "owner": "data",
+          "topic": "data",
+          "environment": "prod",
+          "critical": "no",
+          "project": "databricks-cluster-executer"
+        }
+      },
+      "libraries": [],
+      "email_notifications": {
+        "on_start": [],
+        "on_success": [],
+        "on_failure": []
+      },
+      "max_retries": 0,
+      "spark_python_task": {
+        "python_file": "databricks_jobs/jobs/ml_models_jobs/pclick/pclick_training_job/entrypoint.py",
+        "parameters": [
+          "--conf-file",
+          "conf/pclick_training_job/configuration.json"
+        ]
+      }
+    },
+    {
+       "name": "databricks_jobs-item_filtering_prog_sim_job",
+       "new_cluster": {
+           "spark_version": "10.3.x-cpu-ml-scala2.12",
+           "node_type_id": "i3.8xlarge",
+           "driver_node_type_id": "i3.8xlarge",
+           "aws_attributes": {
+             "availability": "SPOT_WITH_FALLBACK",
+             "zone_id": "eu-west-1a"
+           },
+           "spark_conf": {
+             "spark.driver.maxResultSize": "16g"
+           },
+           "num_workers": 4,
+           "custom_tags": {
+                 "level": "private",
+                 "component": "databricks",
+                 "owner": "data",
+                 "topic": "data",
+                 "environment": "prod",
+                 "critical": "no",
+                 "project": "databricks-cluster-executer"
+           }
+         },
+       "libraries": [],
+       "email_notifications": {
+         "on_start": [],
+         "on_success": [],
+         "on_failure": []
+       },
+       "max_retries": 0,
+       "spark_python_task": {
+         "python_file": "databricks_jobs/jobs/program_similarity_jobs/item_filtering_prog_sim_job/entrypoint.py",
+
+         "parameters": [
+           "--conf-file",
+           "conf/item_filtering_prog_sim_job/configuration.json"
+         ]
+       }
+      },
+
+    {
+      "name": "databricks_jobs-pclick_inference_job",
+      "new_cluster": {
+        "spark_version": "10.3.x-cpu-ml-scala2.12",
+        "node_type_id": "r5d.2xlarge",
+        "driver_node_type_id": "c5d.4xlarge",
+        "autoscale": {
+            "min_workers": 1,
+            "max_workers": 40
+        },
+        "aws_attributes": {
+          "availability": "SPOT_WITH_FALLBACK",
+          "zone_id": "eu-west-1a"
+        },
+        "spark_conf": {
+          "spark.driver.maxResultSize": "8g",
+          "spark.sql.adaptive.enabled": "false",
+          "spark.sql.shuffle.partitions": 3000,
+          "spark.sql.execution.arrow.maxRecordsPerBatch": 1000
+        },
+        "num_workers": 2,
+        "custom_tags": {
+          "level": "private",
+          "component": "databricks",
+          "owner": "data",
+          "topic": "data",
+          "environment": "prod",
+          "critical": "no",
+          "project": "databricks-cluster-executer"
+        }
+      },
+      "libraries": [],
+      "email_notifications": {
+        "on_start": [],
+        "on_success": [],
+        "on_failure": []
+      },
+      "max_retries": 0,
+      "spark_python_task": {
+        "python_file": "databricks_jobs/jobs/ml_models_jobs/pclick/pclick_training_job/inference.py",
+        "parameters": [
+          "--conf-file",
+          "conf/pclick_training_job/configuration.json"
+        ]
+      }
+    },
+        {
+        "name": "databricks_jobs-audio_file_recovery_job",
+        "new_cluster": {
+          "spark_version": "7.3.x-cpu-ml-scala2.12",
+          "node_type_id": "r5d.2xlarge",
+          "driver_node_type_id": "c5d.4xlarge",
+          "aws_attributes": {
+            "first_on_demand": 0,
+            "availability": "SPOT_WITH_FALLBACK"
+          },
+          "spark_conf": {
+            "spark.driver.maxResultSize": "8g"
+          },
+          "num_workers": 2,
+          "custom_tags": {
+            "level": "private",
+            "component": "databricks",
+            "owner": "data",
+            "topic": "data",
+            "environment": "prod",
+            "critical": "no",
+            "project": "databricks-cluster-executer"
+          }
+        },
+        "libraries": [],
+        "email_notifications": {
+          "on_start": [],
+          "on_success": [],
+          "on_failure": []
+        },
+        "max_retries": 0,
+        "spark_python_task": {
+          "python_file": "databricks_jobs/jobs/metadata_enrichment_jobs/audio_file_recovery_job/entrypoint.py",
+          "parameters": [
+            "--conf-file",
+            "conf/audio_file_recovery_job/configuration.json"
+          ]
+        }
+      },
+        {
+          "name": "databricks_jobs-transcriber_job",
+          "new_cluster": {
+            "spark_version": "7.3.x-cpu-ml-scala2.12",
+            "node_type_id": "r5d.2xlarge",
+            "driver_node_type_id": "c5d.4xlarge",
+            "aws_attributes": {
+              "first_on_demand": 0,
+              "availability": "SPOT_WITH_FALLBACK"
+            },
+            "spark_conf": {
+              "spark.databricks.cluster.profile": "singleNode",
+              "spark.master": "local[*]"
+          },
+          "num_workers": 0,
+          "custom_tags": {
+            "level": "private",
+            "component": "databricks",
+            "owner": "data",
+            "topic": "data",
+            "environment": "prod",
+            "critical": "no",
+            "project": "databricks-cluster-executer"
+          }
+          },
+          "libraries": [],
+          "email_notifications": {
+            "on_start": [],
+            "on_success": [],
+            "on_failure": []
+          },
+          "max_retries": 0,
+          "spark_python_task": {
+            "python_file": "databricks_jobs/jobs/metadata_enrichment_jobs/transcriber_job/entrypoint.py",
+            "parameters": [
+              "--conf-file",
+              "conf/transcriber_job/configuration.json"
+            ]
+          }
+        },
+        {
+        "name": "databricks_jobs-psub_metrics_job",
+          "new_cluster": {
+            "spark_version": "7.3.x-cpu-ml-scala2.12",
+            "node_type_id": "r5d.2xlarge",
+            "driver_node_type_id": "c5d.4xlarge",
+            "aws_attributes": {
+              "first_on_demand": 0,
+              "availability": "SPOT_WITH_FALLBACK"
+            },
+            "spark_conf": {
+              "spark.databricks.cluster.profile": "singleNode",
+              "spark.master": "local[*]"
+          },
+          "num_workers": 0,
+          "custom_tags": {
+            "level": "private",
+            "component": "databricks",
+            "owner": "data",
+            "topic": "data",
+            "environment": "prod",
+            "critical": "no",
+            "project": "databricks-cluster-executer"
+          },
+          "libraries": [],
+          "email_notifications": {
+            "on_start": [],
+            "on_success": [],
+            "on_failure": []
+          },
+          "max_retries": 0,
+          "spark_python_task": {
+            "python_file": "databricks_jobs/jobs/ml_models_jobs/psub_metrics_job/entrypoint.py",
+            "parameters": [
+              "--conf-file",
+              "conf/psub_metrics_job/configuration.json"
+            ]
+          }
+        }
+      },
+      {
+        "name": "databricks_jobs-personality_based_prog_sim_job",
+        "new_cluster": {
+          "spark_version": "7.3.x-cpu-ml-scala2.12",
+          "node_type_id": "r5d.2xlarge",
+          "driver_node_type_id": "c5d.4xlarge",
+          "aws_attributes": {
+            "first_on_demand": 0,
+            "availability": "SPOT_WITH_FALLBACK"
+          },
+          "spark_conf": {
+            "spark.driver.maxResultSize": "8g"
+          },
+          "num_workers": 2,
+          "custom_tags": {
+            "level": "private",
+            "component": "databricks",
+            "owner": "data",
+            "topic": "data",
+            "environment": "prod",
+            "critical": "no",
+            "project": "databricks-cluster-executer"
+          }
+        },
+        "libraries": [],
+        "email_notifications": {
+          "on_start": [],
+          "on_success": [],
+          "on_failure": []
+        },
+        "max_retries": 0,
+        "spark_python_task": {
+          "python_file": "databricks_jobs/jobs/program_similarity_jobs/personality_based_prog_sim_job/entrypoint.py",
+          "parameters": [
+            "--conf-file",
+            "conf/personality_based_prog_sim_job/configuration.json"
+          ]
+        }
+      },
+      {
+       "name": "databricks_jobs-user_reco_page_job",
+       "new_cluster": {
+           "spark_version": "10.3.x-cpu-ml-scala2.12",
+           "node_type_id": "i3.8xlarge",
+          "driver_node_type_id": "i3.8xlarge",
+           "aws_attributes": {
+             "availability": "ON_DEMAND"
+           },
+           "spark_conf": {
+             "spark.driver.maxResultSize": "8g"
+           },
+           "num_workers": 8,
+           "custom_tags": {
+                 "level": "private",
+                 "component": "databricks",
+                 "owner": "data",
+                 "topic": "data",
+                 "environment": "prod",
+                 "critical": "no",
+                 "project": "databricks-cluster-executer"
+           }
+         },
+       "libraries": [],
+       "email_notifications": {
+         "on_start": [],
+         "on_success": [],
+         "on_failure": []
+       },
+       "max_retries": 0,
+       "spark_python_task": {
+         "python_file": "databricks_jobs/jobs/personalised_reco_jobs/user_reco_page_job/entrypoint.py",
+
+         "parameters": [
+           "--conf-file",
+           "conf/user_reco_page_job/configuration.json"
+         ]
+       }
+      },
+        {
+        "name": "databricks_jobs-personality_similar_job",
+          "new_cluster": {
+            "spark_version": "7.3.x-cpu-ml-scala2.12",
+            "node_type_id": "r5d.2xlarge",
+            "driver_node_type_id": "c5d.4xlarge",
+            "aws_attributes": {
+              "first_on_demand": 0,
+              "availability": "SPOT_WITH_FALLBACK"
+            },
+            "spark_conf": {
+              "spark.databricks.cluster.profile": "singleNode",
+              "spark.master": "local[*]"
+          },
+          "num_workers": 0,
+          "custom_tags": {
+            "level": "private",
+            "component": "databricks",
+            "owner": "data",
+            "topic": "data",
+            "environment": "prod",
+            "critical": "no",
+            "project": "databricks-cluster-executer"
+          }
+          },
+          "libraries": [],
+          "email_notifications": {
+            "on_start": [],
+            "on_success": [],
+            "on_failure": []
+          },
+          "max_retries": 0,
+          "spark_python_task": {
+            "python_file": "databricks_jobs/jobs/ml_models_jobs/personality_similar_job/entrypoint.py",
+            "parameters": [
+              "--conf-file",
+              "conf/personality_similar_job/configuration.json"
+            ]
+          }
+        },
+        {
+        "name": "databricks_jobs-next_watch_job",
+          "new_cluster": {
+            "spark_version": "7.3.x-cpu-ml-scala2.12",
+            "node_type_id": "r5d.2xlarge",
+            "driver_node_type_id": "c5d.4xlarge",
+            "aws_attributes": {
+              "first_on_demand": 0,
+              "availability": "SPOT_WITH_FALLBACK"
+            },
+            "spark_conf": {
+              "spark.databricks.cluster.profile": "singleNode",
+              "spark.master": "local[*]"
+          },
+          "num_workers": 0,
+          "custom_tags": {
+            "level": "private",
+            "component": "databricks",
+            "owner": "data",
+            "topic": "data",
+            "environment": "prod",
+            "critical": "no",
+            "project": "databricks-cluster-executer"
+          }
+          },
+          "libraries": [],
+          "email_notifications": {
+            "on_start": [],
+            "on_success": [],
+            "on_failure": []
+          },
+          "max_retries": 0,
+          "spark_python_task": {
+            "python_file": "databricks_jobs/jobs/personalised_reco_jobs/next_watch_job/entrypoint.py",
+            "parameters": [
+              "--conf-file",
+              "conf/next_watch_job/configuration.json"
+            ]
+          }
+        }
+    ]
+  }
+}
